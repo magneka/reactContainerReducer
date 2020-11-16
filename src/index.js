@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import lokiThunk from "./lokiRepo";
+//import lokiThunk from "./lokiRepo";
 //require testModule from './testModule'
 
 import App from "./App";
