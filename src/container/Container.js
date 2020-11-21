@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import containerReducer from "./containerReducer";
 import Welcome from "./components/Welcome";
 import Home from "./components/Home";
+import MercList from "./components/MercList";
 import { mercRepo } from "../repositories/mercRepo";
 
 /*
@@ -25,7 +26,12 @@ Det skal være mulig å klikke seg tilbake i dialogen.
  */
 
 const Container = (props) => {
-  const [repo, setRepo] = useState(mercRepo());
+  // VI vil ha repository i state, og bruker en useeffect for å unngå at merc inistaliseres for hver rendering
+  const [repo, setRepo] = useState();
+  useEffect(() => {
+    setRepo(mercRepo());
+  }, []);
+
   const { forms, state, showHome, showMercList } = containerReducer(repo);
 
   console.log("AKTIV form:", state.activeForm);

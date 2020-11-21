@@ -3,7 +3,8 @@ import { useReducer } from "react";
 const useUserAdminReducer = (mercRepo) => {
   const forms = {
     WELCOME: "WELCOME",
-    HOME: "HOME"
+    HOME: "HOME",
+    MERCLIST: "MERCLIST"
   };
 
   // Vi lager et initielt state object etter eget valg
@@ -18,12 +19,13 @@ const useUserAdminReducer = (mercRepo) => {
 
   const actions = {
     LOADING: "LOADING",
-    SHOW_HOME: "SHOW_HOME"
+    SHOW_HOME: "SHOW_HOME",
+    SHOW_MERCS: "MERCS_RECEIVED"
   };
 
   // Her er settes state basert på et dispatch kall
   const dataReducer = (state, action) => {
-    console.log("UseAxios: ", JSON.stringify(action));
+    console.log("datareducer: ", JSON.stringify(action));
 
     switch (action.type) {
       case actions.LOADING:
@@ -41,6 +43,15 @@ const useUserAdminReducer = (mercRepo) => {
           error: null
         };
 
+      case actions.MERCS_RECEIVED:
+        return {
+          ...state,
+          items: action.data,
+          activeForm: forms.MERCLIST,
+          loading: false,
+          error: null
+        };
+
       default:
         return state;
     }
@@ -52,10 +63,13 @@ const useUserAdminReducer = (mercRepo) => {
   const showHome = () => {
     dispatch({ type: actions.SHOW_HOME, data: null });
   };
+
   const showMercList = () => {
+    //console.log ('showMercList')
     let mercs = mercRepo.getAll();
+    console.log(JSON.stringify(mercs));
     if (mercs.count > 0) {
-      dispatch({ type: actions.SHOW_MERCS, data: null });
+      dispatch({ type: actions.MERCS_RECEIVED, data: mercs });
     }
   };
 

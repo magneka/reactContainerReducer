@@ -34,8 +34,7 @@ import Container from "./container/Container";
 export default function App() {
   return (
     <div className="App">
-      <h1>URL-Riken faggruppe</h1>
-      <h2>Vi dypdykker i useRedux hook</h2>
+      <h5>Her kunne en global meny vært..</h5>
       <Container />
     </div>
   );
