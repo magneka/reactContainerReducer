@@ -1,31 +1,27 @@
 import { useReducer } from "react";
 
-const useUserAdminReducer = (messages) => {
-  const displayForms = {
-    SEARCHFORM: "SEARCHFORM",
-    SEARCHRESULT: "SEARCHRESULT",
-    EDITFORM: "EDITFORM"
+const useUserAdminReducer = (mercRepo) => {
+  const forms = {
+    WELCOME: "WELCOME",
+    HOME: "HOME"
   };
 
+  // Vi lager et initielt state object etter eget valg
   const initialState = {
-    items: {},
+    items: [],
     currentItem: {},
-    activeForm: displayForms.SEARCHFORM,
+    shoppingCart: [],
+    activeForm: forms.WELCOME,
     loading: false,
     error: ""
   };
 
   const actions = {
     LOADING: "LOADING",
-    RESET: "RESET",
-    SHOW_SEARCHFORM: "SHOW_SEARCHFORM",
-    SHOW_SEARCHRESULTS: "SHOW_SEARCHRESULTS",
-    SHOW_USERDETAILS: "SHOW_USERDETAILS",
-    SHOW_EMPTYUSER: "SHOW_EMPTYUSER",
-    DATA: "DATA",
-    ERROR: "ERROR"
+    SHOW_HOME: "SHOW_HOME"
   };
 
+  // Her er settes state basert på et dispatch kall
   const dataReducer = (state, action) => {
     console.log("UseAxios: ", JSON.stringify(action));
 
@@ -33,38 +29,14 @@ const useUserAdminReducer = (messages) => {
       case actions.LOADING:
         return {
           ...state,
-          activeForm: displayForms.SEARCHFORM,
           loading: false,
           error: null
         };
 
-      case actions.RESET:
-        return {
-          ...initialState
-        };
-
-      case actions.SHOW_SEARCHFORM:
+      case actions.SHOW_HOME:
         return {
           ...state,
-          activeForm: displayForms.SEARCHFORM,
-          loading: false,
-          error: null
-        };
-
-      case actions.SHOW_SEARCHRESULTS:
-        return {
-          ...state,
-          users: action.data,
-          activeForm: displayForms.SEARCHRESULT,
-          loading: false,
-          error: null
-        };
-
-      case actions.SHOW_USERDETAILS:
-        return {
-          ...state,
-          user: action.data,
-          activeForm: displayForms.EDITFORM,
+          activeForm: forms.HOME,
           loading: false,
           error: null
         };
@@ -73,31 +45,25 @@ const useUserAdminReducer = (messages) => {
         return state;
     }
   };
+
+  // Her aktiveres reduceren i react, og vi får tilbake state objectet og dispatch funksjonen
   const [state, dispatch] = useReducer(dataReducer, initialState);
 
-  // Hver metode under vil ha et eget axioskall med then og catch
-  const resetContainer = () => {
-    dispatch({ type: actions.SHOW_SEARCHFORM, data: initialState });
+  const showHome = () => {
+    dispatch({ type: actions.SHOW_HOME, data: null });
   };
-  const showSearchForm = () => {
-    dispatch({ type: actions.SHOW_SEARCHFORM, data: null });
+  const showMercList = () => {
+    let mercs = mercRepo.getAll();
+    if (mercs.count > 0) {
+      dispatch({ type: actions.SHOW_MERCS, data: null });
+    }
   };
-  const searchItems = (searchField, searchValue) => {};
-  const setCurrentItem = (userName) => {};
-  const getUser = (email) => {};
-  const updateItem = (userData) => {};
-  const createItem = (userData) => {};
 
   return {
+    forms,
     state,
-    displayForms,
-    resetContainer,
-    showSearchForm,
-    searchItems,
-    setCurrentItem,
-    getUser,
-    updateItem,
-    createItem
+    showHome,
+    showMercList
   };
 };
 

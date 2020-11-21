@@ -1,6 +1,6 @@
-import urlrikenlogo from "./assets/logosm.png";
 import React from "react";
 import "./styles.css";
+import Container from "./container/Container";
 //import loki from "lokijs";
 //var db = new loki('sandbox.db');
 //var db = new loki("test");
@@ -36,12 +36,7 @@ export default function App() {
     <div className="App">
       <h1>URL-Riken faggruppe</h1>
       <h2>Vi dypdykker i useRedux hook</h2>
-
-      <img
-        src={urlrikenlogo}
-        style={{ height: "500px" }}
-        alt="serious shit here"
-      />
+      <Container />
     </div>
   );
 }

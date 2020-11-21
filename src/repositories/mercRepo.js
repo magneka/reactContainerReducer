@@ -44,6 +44,8 @@ export const mercRepo = () => {
   items.insert({ produkt: "Krus", farge: "Sort", størrelse: "", lager: 8 });
   items.insert({ produkt: "Kopp", farge: "Sort", størrelse: "", lager: 2100 });
 
+  console.log("Merc initialized");
+
   const getAll = () => {
     return items.data;
   };
