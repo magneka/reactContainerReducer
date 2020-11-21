@@ -1,9 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import { Form, Button, Jumbotron, Container, Row, Col } from "react-bootstrap";
 
 const MercItem = (props) => {
-  const shopItem = (produktId) => {
-    console.log("Shoping:", produktId);
+  const [antall, setAntall] = useState("0");
+
+  const shopItem = () => {
+    console.log("Shoping");
     //props.shopMerc(produktId);
   };
 
@@ -42,13 +44,18 @@ const MercItem = (props) => {
               <b>Bestill antall</b>
             </Col>
             <Col sm={4}>
-              <Form.Control type="text" placeholder="bestill antall" />
+              <Form.Control
+                type="text"
+                placeholder="bestill antall"
+                onChange={(e) => setAntall(e.target.value)}
+                value={antall}
+              />
             </Col>
           </Row>
           <Row>
             <Col sm={2}></Col>
             <Col sm={4}>
-              <Button onClick={shopItem}>Bestill</Button>
+              <Button onClick={() => shopItem()}>Bestill</Button>
             </Col>
           </Row>
         </Container>
