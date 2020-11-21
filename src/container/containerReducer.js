@@ -4,7 +4,8 @@ const useUserAdminReducer = (mercRepo) => {
   const forms = {
     WELCOME: "WELCOME",
     HOME: "HOME",
-    MERCLIST: "MERCLIST"
+    MERCLIST: "MERCLIST",
+    MERCDETAILS: "MERCDETAILS"
   };
 
   // Vi lager et initielt state object etter eget valg
@@ -20,7 +21,8 @@ const useUserAdminReducer = (mercRepo) => {
   const actions = {
     LOADING: "LOADING",
     SHOW_HOME: "SHOW_HOME",
-    SHOW_MERCS: "MERCS_RECEIVED"
+    SHOW_MERCS: "MERCS_RECEIVED",
+    MERCS_ITEM_RECEIVED: "MERCS_ITEM_RECEIVED"
   };
 
   // Her er settes state basert på et dispatch kall
@@ -31,7 +33,7 @@ const useUserAdminReducer = (mercRepo) => {
       case actions.LOADING:
         return {
           ...state,
-          loading: false,
+          loading: true,
           error: null
         };
 
@@ -52,6 +54,15 @@ const useUserAdminReducer = (mercRepo) => {
           error: null
         };
 
+      case actions.MERCS_ITEM_RECEIVED:
+        return {
+          ...state,
+          currentItem: action.data,
+          activeForm: forms.MERCDETAILS,
+          loading: false,
+          error: null
+        };
+
       default:
         return state;
     }
@@ -64,20 +75,36 @@ const useUserAdminReducer = (mercRepo) => {
     dispatch({ type: actions.SHOW_HOME, data: null });
   };
 
-  const showMercList = () => {
-    //console.log ('showMercList')
-    let mercs = mercRepo.getAll();
-    console.log(JSON.stringify(mercs));
-    if (mercs.count > 0) {
+  const showMercList = async () => {
+    dispatch({ type: actions.LOADING, data: null });
+
+    let mercs = await mercRepo.getAll();
+
+    if (mercs.length > 0) {
       dispatch({ type: actions.MERCS_RECEIVED, data: mercs });
     }
+  };
+
+  const showProduct = (produktId) => {
+    console.log("ShowProdukt:", produktId);
+    let mercItem = mercRepo.findProdukt(produktId);
+    console.log("ShowProdukt:", mercItem);
+    if (mercItem) {
+      dispatch({ type: actions.MERCS_ITEM_RECEIVED, data: mercItem });
+    }
+  };
+
+  const buyItem = (produktId, count) => {
+    console.log("Shopping", produktId, count);
   };
 
   return {
     forms,
     state,
     showHome,
-    showMercList
+    showMercList,
+    showProduct,
+    buyItem
   };
 };
 

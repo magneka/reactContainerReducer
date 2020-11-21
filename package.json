@@ -1,15 +1,14 @@
 {
-  "name": "react",
+  "name": "reducer-dypdykk",
   "version": "1.0.0",
-  "description": "React example starter project",
-  "keywords": [
-    "react",
-    "starter"
-  ],
+  "description": "For faggruppe URL-Riken",
+  "keywords": [],
   "main": "src/index.js",
   "dependencies": {
+    "bootstrap": "4.5.3",
     "lokijs": "1.5.11",
     "react": "17.0.0",
+    "react-bootstrap": "1.4.0",
     "react-dom": "17.0.0",
     "react-scripts": "3.4.3"
   },

@@ -3,6 +3,8 @@ import containerReducer from "./containerReducer";
 import Welcome from "./components/Welcome";
 import Home from "./components/Home";
 import MercList from "./components/MercList";
+import MercItem from "./components/MercItem";
+import { SpinnerPage } from "./components/SpinnerPage";
 import { mercRepo } from "../repositories/mercRepo";
 
 /*
@@ -32,15 +34,32 @@ const Container = (props) => {
     setRepo(mercRepo());
   }, []);
 
-  const { forms, state, showHome, showMercList } = containerReducer(repo);
+  const {
+    forms,
+    state,
+    showHome,
+    showMercList,
+    showProduct,
+    buyItem
+  } = containerReducer(repo);
 
   console.log("AKTIV form:", state.activeForm);
+
+  if (state.loading) return <SpinnerPage />;
 
   return (
     <div>
       {state.activeForm === forms.WELCOME && <Welcome next={showHome} />}
 
       {state.activeForm === forms.HOME && <Home next={showMercList} />}
+
+      {state.activeForm === forms.MERCLIST && (
+        <MercList mercs={state.items} showProduct={showProduct} />
+      )}
+
+      {state.activeForm === forms.MERCDETAILS && (
+        <MercItem item={state.currentItem} shopMerc={buyItem} />
+      )}
     </div>
   );
 };

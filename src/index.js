@@ -1,9 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
-//import lokiThunk from "./lokiRepo";
-//require testModule from './testModule'
-
 import App from "./App";
+import "bootstrap/dist/css/bootstrap.min.css";
 
 //testModule().incrementCounter()
 //lokiThunk.seed()
