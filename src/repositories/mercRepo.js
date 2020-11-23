@@ -79,19 +79,22 @@ export const mercRepo = () => {
   const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
   const getAll = async () => {
-    await sleep(2000);
+    await sleep(1000);
     return items.data;
   };
 
-  const insert = (newJson) => {
+  const insert = async (newJson) => {
+    await sleep(250);
     items.insert(newJson);
   };
 
-  const findProdukt = (param) => {
+  const findProdukt = async (param) => {
+    await sleep(2500);
     return items.findOne({ produktId: param });
   };
 
-  const update = (oldRec) => {
+  const update = async (oldRec) => {
+    await sleep(250);
     items.update(oldRec);
   };
 

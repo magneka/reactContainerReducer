@@ -5,8 +5,8 @@ const MercItem = (props) => {
   const [antall, setAntall] = useState("0");
 
   const shopItem = () => {
-    console.log("Shoping");
-    //props.shopMerc(produktId);
+    console.log("Shopping:", antall, props.item.produktId);
+    props.buyItem(props.item.produktId, antall);
   };
 
   return (
@@ -45,7 +45,7 @@ const MercItem = (props) => {
             </Col>
             <Col sm={4}>
               <Form.Control
-                type="text"
+                type="number" min="0" step="1"
                 placeholder="bestill antall"
                 onChange={(e) => setAntall(e.target.value)}
                 value={antall}
@@ -55,7 +55,7 @@ const MercItem = (props) => {
           <Row>
             <Col sm={2}></Col>
             <Col sm={4}>
-              <Button onClick={() => shopItem()}>Bestill</Button>
+              <Button onClick={() => shopItem()} disabled={antall<=0}>Bestill</Button>
             </Col>
           </Row>
         </Container>

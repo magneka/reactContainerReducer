@@ -4,6 +4,8 @@ import Welcome from "./components/Welcome";
 import Home from "./components/Home";
 import MercList from "./components/MercList";
 import MercItem from "./components/MercItem";
+import ShoppingCart from './components/ShoppingCart'
+import Menu from './components/Menu'
 import { SpinnerPage } from "./components/SpinnerPage";
 import { mercRepo } from "../repositories/mercRepo";
 
@@ -11,20 +13,9 @@ import { mercRepo } from "../repositories/mercRepo";
   Dette er hoved containeren, den skal orcestrere mange skjermbilder,
   Det gjøres ved hjelp av kall til reduceren,
   Resultatet av kallene dispatcher til reduceren, som oppdaterer state
-  Pga state oppdateringen remdres containeren på nytt.
+  Pga avt at state er endret, remdres containeren på nytt.
   Da kan vi bruke state til å velge hvilket underskjermbilde vi skal vise
 
-  Vi skal lage en dialog:
-  1 Velkomstbilde
-  2 Hjem (forklaring)
-  3 Liste over produkter (klikk på produkt går til neste)
-  4 Detaljer for produkt
-  5 Checkout av handlekurv
-  6 Bekreftelse av bestilling
-
-Det skal være mulig å klikke seg tilbake i dialogen.
-
- ((state.activeForm === forms.WELCOMEFORM) && <Welcome />)
  */
 
 const Container = (props) => {
@@ -40,7 +31,8 @@ const Container = (props) => {
     showHome,
     showMercList,
     showProduct,
-    buyItem
+    buyItem,
+    showShoppingCart
   } = containerReducer(repo);
 
   console.log("AKTIV form:", state.activeForm);
@@ -49,17 +41,42 @@ const Container = (props) => {
 
   return (
     <div>
+      
+      {/*  Welcome bildet
+        Dersom det første uttrykket er false, sjekkes ikke neste uttrykk 
+        Neste uttrykk rendrer innhodld, dvs Welcome componenten
+      */}
       {state.activeForm === forms.WELCOME && <Welcome next={showHome} />}
 
+      {/* Home siden */}
       {state.activeForm === forms.HOME && <Home next={showMercList} />}
 
+      {/* Siden med listen over produkter, merk at her har også rendret menyen */}
       {state.activeForm === forms.MERCLIST && (
-        <MercList mercs={state.items} showProduct={showProduct} />
+        <>
+          <Menu hjem={showHome} tilProduktListen={showMercList} tilShoppingCart={showShoppingCart} />
+          <MercList mercs={state.items} showProduct={showProduct} />
+        </>
       )}
 
+      {/* Detaljbilde for Mercs, med meny.. */}
       {state.activeForm === forms.MERCDETAILS && (
-        <MercItem item={state.currentItem} shopMerc={buyItem} />
+        <>
+          <Menu hjem={showHome} tilProduktListen={showMercList} tilShoppingCart={showShoppingCart} />
+          <MercItem item={state.currentItem} buyItem={buyItem} />
+        </>
       )}
+
+      {/* Detaljbilde for ShoppingCart, med meny.. */}
+      {state.activeForm === forms.SHOPPINGCART && (
+        <>
+          <Menu hjem={showHome} tilProduktListen={showMercList} tilShoppingCart={showShoppingCart} />
+          <ShoppingCart shoppingCart={state.shoppingCart}  />
+        </>
+      )}
+
+
+
     </div>
   );
 };

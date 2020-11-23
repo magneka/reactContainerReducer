@@ -1,0 +1,63 @@
+DYPDYKK I USEREDUCER
+====================
+Flux er et pattern som Facebook kom opp med for en tid tilbake.  Det finnes flere implementeringer av dette.
+Før brukte man ofte Redux, som er en middelware pakke som gir deg en global state.
+Når Hooks kom for halvannet år siden, kom "useRedux" som er en light versjon av Redux.
+Den har ikke all funksjonalitet som Redux har, f.eks.ikke global state.
+
+Container pattern som er demonstrert her viser en måte å strukturere sider på.
+Benyttes f.eks. i nettbanken til SPV. Hver funksjonalitet, Lån, Saldo, Kredittkort, er hver sin 
+container, og har en rekke undersider som orkestreres av container componenten.
+
+1: HVA SKJER NÅR DET IKKE ER NOK VARER PÅ LAGER
+-----------------------------------------------
+
+I containerReduceren finner du buyItem.  Denne har logikk for å legger 
+varer i handlekurven derseom det er nok varer på lager.  
+
+Men dersom det ikke er nok, så må vi sende brukeren til en feilside.
+
+For å gjøre det så må vi gjøre følgende:
+a) Lag en ny FeilSide component etter template for de andre, den skal være enda enklere enn spinneren
+b) Vi må ha en ny action i containerReduceren
+c) Vi må ha en ny form i containerReduceren
+d) Vi må ha en ny case i switch statementet i containerReduceren, denne skal sette feilmeldingen
+e) Vi endre logikken i BuyItem, slik at den dispatcher det du har nettopp lagd
+f) For at feilsiden skal vises så må vi i containeren ha en sjekk på om Feilmelding er satt,
+   i så fall, kan vi returnere feilcomponenten på samme måte som spinneren
+g) Send med feilmeldingen inn i Feilside på props, og plukk den opp inne i Feilside for visning
+e) Lag en knapp på feilsiden så du kan komme tilbake til listen over mercs som kan kjøpes
+
+Du kan legge inn tilsvarende logikk i showprodukt i reduceren, dersom den ikke finner produktet i databasen.
+Dette blir nok en oneliner...
+
+
+2: HANDLEKURVEN SKAL IMPLEMENTERES
+----------------------------------
+Hva må du gjøre her:
+a) Lag en ShoppingCart component på samme måte som MercList, men den skal hente shoppingcart fra state
+b) Vi må ha en ny action i containerReduceren
+c) Vi må ha en ny form i containerReduceren
+d) Vi må ha en ny case i switch statementet i containerReduceren, denne skal sette feilmeldingen
+e) Lag en ny metode for showShoppingCart i reduceren, denne må dispatche deg til den nye shoppingCart componenten
+f) Så må du på Containeren og i return statementet sende deg til ShoppingCart dersom det er den formen som er aktiv.
+
+3: FERDIGSTILLING AV ShoppingCart
+---------------------------------
+a) ShoppingCart siden må ha funksjonalitet for å betale, og å tømme shoppingCarten.  
+   Så da må vi ha et par knapper på shoppingCart siden. 
+   Nå vet du nok til å klare å lage dette uten ferdig oppskrift.
+
+4: LAG EN NY CONTAINER
+----------------------
+Du kan jo lage en ny kontainer som bentyttes for vedlikehold av varelageret
+Og du kan jo lage en ny reducer på app nivå som benyttes for å sende deg til en av containerene
+
+MERK:
+-----
+Dersom du får til dette, så vil jeg herved benytte anledningen til å gratulere deg!
+Du har nå full kontroll på hvordan man kan strukturere store React applikasjoner, og jeg skal 
+uten opphold si fra til Hans Martin at han bør sende deg på React oppdrag......
+
+
+

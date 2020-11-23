@@ -6,7 +6,7 @@ import { Spinner } from "react-bootstrap";
 export const SpinnerPage = (props) => {
   return (
     <>
-      <h1>Nå gjelder det å være tålmodig..</h1>
+      <h1>Vi henter, Du venter..</h1>
       <Spinner animation="border" variant="primary" />
     </>
   );
