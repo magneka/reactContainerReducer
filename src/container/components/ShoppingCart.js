@@ -16,7 +16,7 @@ const MercList = (props) => {
 
     return (
         <>
-            <h1>Du har følgende i handlekurven din></h1>
+            <h1>Du har følgende i handlekurven din</h1>
 
             <Table striped bordered hover>
                 <thead>

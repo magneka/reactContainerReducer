@@ -12,7 +12,7 @@ container, og har en rekke undersider som orkestreres av container componenten.
 1: HVA SKJER NÅR DET IKKE ER NOK VARER PÅ LAGER
 -----------------------------------------------
 
-I containerReduceren finner du buyItem.  Denne har logikk for å legger 
+I containerReduceren finner du buyItem.  Denne har logikk for å legge 
 varer i handlekurven derseom det er nok varer på lager.  
 
 Men dersom det ikke er nok, så må vi sende brukeren til en feilside.
